@@ -1,0 +1,12 @@
+{
+  "name": "exoframe-template-java",
+  "version": "0.2.0",
+  "description": "Java deployment template for exoframe",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Tim Ermilov <yamalight@gmail.com> (http://codezen.net)",
+  "license": "MIT"
+}
