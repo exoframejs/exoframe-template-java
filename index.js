@@ -24,7 +24,7 @@ exports.checkTemplate = async ({tempDockerDir}) => {
 };
 
 // function to execute current template
-exports.executeTemplate = async ({username, tempDockerDir, resultStream, util, docker}) => {
+exports.executeTemplate = async ({username, tempDockerDir, resultStream, util, existing, docker}) => {
   try {
     // generate dockerfile
     const dockerfile = javaDockerfile();
@@ -48,15 +48,12 @@ exports.executeTemplate = async ({username, tempDockerDir, resultStream, util, d
       return;
     }
 
-    // start image
-    const containerInfo = await docker.start(Object.assign({}, buildRes, {username, resultStream}));
-    util.logger.debug(containerInfo.Name);
+    const container = await docker.start(Object.assign({}, buildRes, {username, existing, resultStream}));
+    util.logger.debug(container);
 
     // clean temp folder
     await util.cleanTemp();
 
-    const containerData = docker.daemon.getContainer(containerInfo.Id);
-    const container = await containerData.inspect();
     // return new deployments
     util.writeStatus(resultStream, {message: 'Deployment success!', deployments: [container], level: 'info'});
     resultStream.end('');
